@@ -61,6 +61,47 @@ if (!function_exists('woocommerce_pagination')) {
 	}
 }
 
+/***********************************************/
+// Monita function
+/***********************************************/
+
+function get_money_share_social(){
+    $url = GET_PRICE_SOCIAL_URL ;
+    $current_user_id = get_current_user_id();
+    if($current_user_id === 0){
+        return null;
+    }
+    $user_info = get_userdata( $current_user_id );
+    $role = $user_info->roles[0];
+    /*
+    if($role != 'subscriber'){
+       return null;
+    }
+    */
+    $link = get_permalink();
+    $args = array(
+        'timeout'     => 50,
+        'body'        => array('userId'=>$current_user_id,'link'=>$link),
+
+    );
+    $response = wp_remote_post( $url ,$args);
+    $body = wp_remote_retrieve_body( $response );
+    $data = (array) json_decode($body);
+    return $data;
+
+}
+function get_text(){
+    return 'men_nguyen_xxx';
+}
+function monita_custom_scripts_basic()
+{
+    wp_register_script( 'custom-script', get_template_directory_uri() . '/js/monita-blog.js' );
+    wp_register_script( 'modal-script', get_template_directory_uri() . '/js/sweetalert.min.js' );
+    wp_enqueue_script( 'custom-script' );
+    wp_enqueue_script( 'modal-script' );
+}
+add_action( 'wp_enqueue_scripts', 'monita_custom_scripts_basic' );
+
 // Override theme default specification for product 3 per row
 
 

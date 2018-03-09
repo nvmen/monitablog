@@ -10,6 +10,25 @@
     <?php
     wp_head(); /** we hook up in wp_booster @see td_wp_booster_functions::hook_wp_head */
     ?>
+	<script>
+	  window.fbAsyncInit = function() {
+		FB.init({
+		  appId            : '<?php  echo FACEBOOK_APPID ?>',
+		  autoLogAppEvents : true,
+		  xfbml            : true,
+		  version          : 'v2.12'
+		});
+	  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+	</script>
 </head>
 
 <body <?php body_class() ?> itemscope="itemscope" itemtype="<?php echo td_global::$http_or_https?>://schema.org/WebPage">

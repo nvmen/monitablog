@@ -8,25 +8,30 @@ class td_module_single extends td_module_single_base {
 
 	
 	function get_share_money(){
-		$response = wp_remote_get( 'https://monita.vn/social' );
-		$body = wp_remote_retrieve_body( $response );		
-		$data = (array) json_decode($body);			
-				$buffy1 = "<div class='td-post-sharing td-post-sharing-top '>
+            $data = get_money_share_social();
+            if($data == null) return null;
+            $buffy1 = "<div class='td-post-sharing td-post-sharing-top '>
 				   <div class='td-default-sharing'>";
-				foreach ($data as $item) {
-					$social_name = strtolower($item->social);
-					$value = "<a class='td-social-sharing-buttons td-social-$social_name' href='javascript:void(0)' 
+            foreach ($data as $item) {
+                $social_name = strtolower($item->social);
+                $value = "<a class='td-social-sharing-buttons td-social-$social_name' href='javascript:void(0)' 
 										title ='Chia sẽ trên $item->social bạn kiếm được $item->price vnđ'>
 										 <i class='td-icon-$social_name'></i>
 										 <div class='td-social-but-text'>$item->social $item->price VND</div>
 					  </a>";
-					  $buffy1 =$buffy1.$value;
-				}
-				$buffy1 =$buffy1. "</div></div>";
-		return $buffy1;
+                $buffy1 =$buffy1.$value;
+            }
+            $buffy1 =$buffy1. "</div></div>";
+            return $buffy1;
+
+
+
+
 	}
     function get_social_sharing_top() {
-        if (!$this->is_single) {
+
+        return null;// men not show on top
+	    if (!$this->is_single) {
             return;
         }
 
@@ -67,8 +72,8 @@ class td_module_single extends td_module_single_base {
 		            <a class="td-social-sharing-buttons td-social-facebook" href="http://www.facebook.com/sharer.php?u=' . urlencode( esc_url( get_permalink() ) ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><i class="td-icon-facebook"></i><div class="td-social-but-text">' . __td('Share on Facebook', TD_THEME_NAME) . '</div></a>
 		            <a class="td-social-sharing-buttons td-social-twitter" href="https://twitter.com/intent/tweet?text=' . htmlspecialchars(urlencode(html_entity_decode($this->title, ENT_COMPAT, 'UTF-8')), ENT_COMPAT, 'UTF-8') . '&url=' . urlencode( esc_url( get_permalink() ) ) . '&via=' . urlencode( $twitter_user ? $twitter_user : get_bloginfo( 'name' ) ) . '"  ><i class="td-icon-twitter"></i><div class="td-social-but-text">' . __td('Tweet on Twitter', TD_THEME_NAME) . '</div></a>
 		            <a class="td-social-sharing-buttons td-social-google" href="http://plus.google.com/share?url=' . esc_url( get_permalink() ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><i class="td-icon-googleplus"></i></a>
-		            <a class="td-social-sharing-buttons td-social-pinterest" href="http://pinterest.com/pin/create/button/?url=' . esc_url( get_permalink() ) . '&amp;media=' . ( ! empty( $image[0] ) ? $image[0] : '' ) . '&description=' . $td_pinterest_share_description . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><i class="td-icon-pinterest"></i></a>
-		            <a class="td-social-sharing-buttons td-social-whatsapp" href="whatsapp://send?text=' . htmlspecialchars(urlencode(html_entity_decode($this->title, ENT_COMPAT, 'UTF-8')), ENT_COMPAT, 'UTF-8') . '%20-%20' . urlencode( esc_url( get_permalink() ) ) . '" ><i class="td-icon-whatsapp"></i></a>
+		          <!--  <a class="td-social-sharing-buttons td-social-pinterest" href="http://pinterest.com/pin/create/button/?url=' . esc_url( get_permalink() ) . '&amp;media=' . ( ! empty( $image[0] ) ? $image[0] : '' ) . '&description=' . $td_pinterest_share_description . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><i class="td-icon-pinterest"></i></a>
+		            <a class="td-social-sharing-buttons td-social-whatsapp" href="whatsapp://send?text=' . htmlspecialchars(urlencode(html_entity_decode($this->title, ENT_COMPAT, 'UTF-8')), ENT_COMPAT, 'UTF-8') . '%20-%20' . urlencode( esc_url( get_permalink() ) ) . '" ><i class="td-icon-whatsapp"></i></a> -->
 	            </div>';
 	        }
 
@@ -97,7 +102,9 @@ class td_module_single extends td_module_single_base {
 
 
     function get_social_sharing_bottom() {
-        if (!$this->is_single) {
+        $temp = get_text();
+       // var_dump($temp);exit(0);
+	    if (!$this->is_single) {
             return;
         }
 
@@ -105,6 +112,7 @@ class td_module_single extends td_module_single_base {
             return;
         }
 
+        $current_user_id = get_current_user_id();
 	    // used to style the sharing icon to be big on tablet
 	    $td_no_like = '';
 	    if (td_util::get_option('tds_bottom_like_tweet_show') != 'hide') {
@@ -133,7 +141,10 @@ class td_module_single extends td_module_single_base {
 		    //default share buttons
 		   $buffy .= '
             <div class="td-default-sharing">
-	            <a class="td-social-sharing-buttons td-social-facebook" href="http://www.facebook.com/sharer.php?u=' . urlencode( esc_url( get_permalink() ) ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><i class="td-icon-facebook"></i><div class="td-social-but-text">Facebook</div></a>
+              
+	            <a class="td-social-sharing-buttons td-social-facebook" onclick="fb_share('.$current_user_id.',\''.get_permalink().'\',\'facebook\',\''.CHECK_PAYMENT_SHARE.'\','.$this->post->ID.')">
+	            <i class="td-icon-facebook"></i>
+	            <div class="td-social-but-text">Facebook</div></a>
 				
 				<a class="td-social-sharing-buttons td-social-zalo"><div class="zalo-share-button" data-href="'.urlencode( esc_url( get_permalink() ) ).'" data-oaid="4259206566558770396" data-layout="2" data-color="blue" data-customize=false>
 </div></a>

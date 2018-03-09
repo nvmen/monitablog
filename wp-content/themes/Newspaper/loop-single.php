@@ -11,7 +11,6 @@ if (have_posts()) {
 
     <article id="post-<?php echo $td_mod_single->post->ID;?>" class="<?php echo join(' ', get_post_class());?>" <?php echo $td_mod_single->get_item_scope();?>>
         <div class="td-post-header">
-
             <?php echo $td_mod_single->get_category(); ?>
 
             <header class="td-post-title">

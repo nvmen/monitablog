@@ -59,6 +59,8 @@ if (have_posts()) {
 				    echo $td_mod_single->get_image('td_696x0');
 			    }
 			    ?>
+				
+				<?php echo $td_mod_single->get_share_money();?>				
 			    <?php echo $td_mod_single->get_social_sharing_top();?>
 			    <?php echo $td_mod_single->get_content();?>
 		    </div>

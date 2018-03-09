@@ -55,7 +55,11 @@ define('SECURE_AUTH_SALT', 'V c7{;|@Z`=!UT66bu :QMWzCd5nkSah(?*06s>4dc,4L*7;>|/ 
 define('LOGGED_IN_SALT',   'J+G(VQtW(p`c@JVY1(wY>D]$//u :wF@^zNain1J&WrJ/ioLh^<}knw6l{&|VA74');
 define('NONCE_SALT',       'Y+P(jE}^Xp;8R=S:SbOd_v)p%A))?$ {HXyRezd_l;Mzo[ Bx!lW3I<8|cd)`+p=');
 
-define('GET_PRICE_SOCIAL_URL',       'http://monita.vn/social');
+/*Monita Custom config*/
+define('FACEBOOK_APPID',       '321635654908147');
+define('GET_PRICE_SOCIAL_URL',       'https://monita.vn/social');
+define('CHECK_CAN_SHARE',       'https://www.monita.vn/canshare');
+define('CHECK_PAYMENT_SHARE',       'https://www.monita.vn/canshare');
 
 /**#@-*/
 

@@ -33046,3 +33046,59 @@ td-md-is-safari
     height: 14px;
     background: url(https://stc.sp.zdn.vn/share/logo_white_s.png);
 }
+
+.socialbox {
+  font-family: "Open Sans";
+  font-weight: 300;
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  padding: 20px 30px;
+  width: 320px;
+  margin: 24px 0 0 24px;
+}
+
+.socialbox.facebook {
+  background-color: #2980b9;
+  -webkit-transition: background-color 0.25s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
+}
+.socialbox.twitter {
+  background-color: #3498db;
+  -webkit-transition: background-color 0.25s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
+}
+.socialbox.pinterest {
+  background-color: #c0392b;
+  -webkit-transition: background-color 0.25s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
+}
+.socialbox.linkedin {
+  background-color: #34495e;
+  -webkit-transition: background-color 0.25s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
+}
+
+
+
+
+.socialbox .social-icon {
+  line-height: 32px;
+  font-size: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+  padding-right: 15px;
+}
+.socialbox .description {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 10px;
+  font-size: 13px;
+}
+
+.socialbox .description span {
+  display: block;
+  line-height: 16px;
+}
+

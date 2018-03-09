@@ -142,6 +142,6 @@
 </div><!-- close td-outer-wrap -->
 
 <?php wp_footer(); ?>
-
+ <script src="https://sp.zalo.me/plugins/sdk.js"></script>
 </body>
 </html>

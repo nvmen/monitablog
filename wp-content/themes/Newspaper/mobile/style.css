@@ -4484,3 +4484,52 @@ body {
   text-align: center;
   margin: 0 auto;
 }
+a.socialbox {
+  font-family: "Open Sans";
+  font-weight: 300;
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  padding: 10px 30px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+
+
+
+
+
+a.socialbox .social-icon {
+  line-height: 32px;
+  font-size: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+  padding-right: 15px;
+}
+a.socialbox .description {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 10px;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+a.socialbox .description span {
+  display: block;
+  line-height: 16px;
+}
+.td-social-zalo {
+  background-color: #03a5fa;
+}
+.td-icon-zalo {
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: 0.15em;
+  margin-right: 4px;
+  width: 14px;
+  height: 14px;
+  background: url(https://stc.sp.zdn.vn/share/logo_white_s.png);
+}
+

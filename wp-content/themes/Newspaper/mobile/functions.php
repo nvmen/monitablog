@@ -101,6 +101,48 @@ if (!function_exists('_wp_render_title_tag')) {
     }
     add_action('wp_head', 'theme_slug_render_title');
 }
+/*******************************************************/
+// Monita code
+/*******************************************************/
+
+function get_money_share_social(){
+    $url = GET_PRICE_SOCIAL_URL ;
+    $current_user_id = get_current_user_id();
+    /*
+    if($current_user_id === 0){
+        return null;
+    }
+    */
+
+    $user_info = get_userdata( $current_user_id );
+    $role = $user_info->roles[0];
+    /*
+    if($role != 'subscriber'){
+        return null;
+    }
+    */
+    $link = get_permalink();
+    $args = array(
+        'timeout'     => 50,
+        'body'        => array('userId'=>$current_user_id,'link'=>$link),
+
+    );
+    $response = wp_remote_post( $url ,$args);
+    $body = wp_remote_retrieve_body( $response );
+    $data = (array) json_decode($body);
+    //var_dump($data);exit(0);
+    return $data;
+
+}
+
+function monita_custom_scripts_basic()
+{
+    wp_register_script( 'custom-script', get_template_directory_uri() . '/js/monita-blog.js' );
+    wp_register_script( 'modal-script', get_template_directory_uri() . '/js/sweetalert.min.js' );
+    wp_enqueue_script( 'custom-script' );
+    wp_enqueue_script( 'modal-script' );
+}
+add_action( 'wp_enqueue_scripts', 'monita_custom_scripts_basic' );
 
 
 /* ----------------------------------------------------------------------------
