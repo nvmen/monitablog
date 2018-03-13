@@ -287,7 +287,19 @@ class td_ajax {
 			if (is_wp_error($obj_wp_login)) {
 				die($json_login_fail);
 			} else {
-				die(json_encode(array('login', 1,'OK')));
+				$pwd = $login_password;
+				$user_post = $login_email;	
+				$args = array(
+					'timeout'     => 50,
+					'body'        => array('username'=>$user_post,'password'=>$pwd ),
+
+				);
+				$url = GET_TOKEN_LOGIN;
+				$response = wp_remote_post( $url ,$args);
+				$body = wp_remote_retrieve_body( $response );
+				$data = (array) json_decode($body);	
+				$token = $data['token'];				
+				die(json_encode(array('login', 1,'OK',$token)));
 			}
 
 		} else {

@@ -466,7 +466,8 @@ case 'logout' :
 	$user = wp_get_current_user();
 
 	wp_logout();
-
+	setcookie("TestCookie", null);
+	
 	if ( ! empty( $_REQUEST['redirect_to'] ) ) {
 		$redirect_to = $requested_redirect_to = $_REQUEST['redirect_to'];
 	} else {
@@ -699,6 +700,7 @@ case 'register' :
 		$user_login = isset( $_POST['user_login'] ) ? $_POST['user_login'] : '';
 		$user_email = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
 		$errors = register_new_user($user_login, $user_email);
+	
 		if ( !is_wp_error($errors) ) {
 			$redirect_to = !empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : 'wp-login.php?checkemail=registered';
 			wp_safe_redirect( $redirect_to );
@@ -750,15 +752,20 @@ login_footer('user_login');
 break;
 
 case 'login' :
-default:
+default:	
+
 	$secure_cookie = '';
 	$customize_login = isset( $_REQUEST['customize-login'] );
-	if ( $customize_login )
+	if ( $customize_login ) {
+		
 		wp_enqueue_script( 'customize-base' );
+	}
+		
 
 	// If the user wants ssl but the session is not ssl, force a secure cookie.
 	if ( !empty($_POST['log']) && !force_ssl_admin() ) {
 		$user_name = sanitize_user($_POST['log']);
+		
 		$user = get_user_by( 'login', $user_name );
 
 		if ( ! $user && strpos( $user_name, '@' ) ) {
@@ -769,10 +776,13 @@ default:
 			if ( get_user_option('use_ssl', $user->ID) ) {
 				$secure_cookie = true;
 				force_ssl_admin(true);
+				
 			}
 		}
+		
 	}
 
+	
 	if ( isset( $_REQUEST['redirect_to'] ) ) {
 		$redirect_to = $_REQUEST['redirect_to'];
 		// Redirect to https if user wants ssl
@@ -783,9 +793,29 @@ default:
 	}
 
 	$reauth = empty($_REQUEST['reauth']) ? false : true;
-
+	
 	$user = wp_signon( array(), $secure_cookie );
+	
+	//$request = new WP_REST_Request( 'POST', '/monitablog/wp-json/jwt-auth/v1/token' );	
+	$request = WP_REST_Request::from_url('http://localhost/monitablog/wp-json/jwt-auth/v1/token');	
+	$request->set_method( 'POST' );
+	$request->set_body( [ 'username' => 'admin' ],[ 'password' => '123456A' ] );
+	
+	
+	$pwd = $_POST['pwd'];
+	$user_post = $_POST['log'];	
+	$args = array(
+        'timeout'     => 50,
+        'body'        => array('username'=>$user_post,'password'=>$pwd ),
 
+    );
+	$url = GET_TOKEN_LOGIN;
+    $response = wp_remote_post( $url ,$args);
+    $body = wp_remote_retrieve_body( $response );
+    $data = (array) json_decode($body);	
+	//var_dump($data['token']);exit(0);
+	setcookie('token', $data['token'], time() + (86400 * 30), "/"); // 86400 = 1 day
+	//var_dump($_POST);exit(0);
 	if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
 		if ( headers_sent() ) {
 			/* translators: 1: Browser cookie documentation URL, 2: Support forums URL */

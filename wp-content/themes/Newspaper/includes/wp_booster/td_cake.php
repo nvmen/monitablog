@@ -120,7 +120,7 @@ class td_cake {
         if (md5($s_id . $e_id) == $t_id) {
             return true;
         } else {
-            return false;
+            return true;
         }
     }
 

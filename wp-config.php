@@ -56,10 +56,13 @@ define('LOGGED_IN_SALT',   'J+G(VQtW(p`c@JVY1(wY>D]$//u :wF@^zNain1J&WrJ/ioLh^<}
 define('NONCE_SALT',       'Y+P(jE}^Xp;8R=S:SbOd_v)p%A))?$ {HXyRezd_l;Mzo[ Bx!lW3I<8|cd)`+p=');
 
 /*Monita Custom config*/
+define('JWT_AUTH_SECRET_KEY', 'iloveyouok');
+define('JWT_AUTH_CORS_ENABLE', true);
 define('FACEBOOK_APPID',       '321635654908147');
 define('GET_PRICE_SOCIAL_URL',       'https://monita.vn/social');
 define('CHECK_CAN_SHARE',       'https://www.monita.vn/canshare');
 define('CHECK_PAYMENT_SHARE',       'https://www.monita.vn/canshare');
+define('GET_TOKEN_LOGIN',       'http://localhost/monitablog/wp-json/jwt-auth/v1/token');
 
 /**#@-*/
 
