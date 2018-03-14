@@ -2383,6 +2383,9 @@ var tdLogin = {};
                     switch( td_data_object[0] ) {
                         case 'login':
                             if ( 1 === td_data_object[1] ) {
+								let token = td_data_object[3];								
+								let cookie = "token="+token;
+								document.cookie = cookie;
                                 location.reload( true );
                             } else {
                                 tdLogin.addRemoveClass( ['.td_display_err', 0, 'td_display_msg_ok'] );
