@@ -67,7 +67,7 @@ get_admin_page_parent();
  */
 function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 	global $self, $parent_file, $submenu_file, $plugin_page, $typenow;
-
+	//var_dump($menu);exit(0);
 	$first = true;
 	// 0 = menu_title, 1 = capability, 2 = menu_slug, 3 = page_title, 4 = classes, 5 = hookname, 6 = icon_url
 	foreach ( $menu as $key => $item ) {

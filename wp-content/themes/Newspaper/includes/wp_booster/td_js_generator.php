@@ -8,7 +8,7 @@ function td_js_generator() {
 
     td_js_buffer::add_variable('td_please_wait', __td('Please wait...', TD_THEME_NAME));
     td_js_buffer::add_variable('td_email_user_pass_incorrect', __td('User or password incorrect!', TD_THEME_NAME));
-    td_js_buffer::add_variable('td_email_user_incorrect', __td('Email or username incorrect!', TD_THEME_NAME));
+    td_js_buffer::add_variable('td_email_user_incorrect', __td('Email or username or facebook incorrect!', TD_THEME_NAME));
     td_js_buffer::add_variable('td_email_incorrect', __td('Email incorrect!', TD_THEME_NAME));
 
     //use for more articles on post pages

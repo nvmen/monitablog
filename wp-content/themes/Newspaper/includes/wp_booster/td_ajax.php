@@ -315,7 +315,7 @@ class td_ajax {
 		if (get_option('users_can_register') == 1){
 
 			// json predefined return text
-			$json_fail = json_encode(array('register', 0, __td('Email or username incorrect!', TD_THEME_NAME)));
+			$json_fail = json_encode(array('register', 0, __td('Email or username of facebook link incorrect!', TD_THEME_NAME)));
 			$json_user_pass_exists = json_encode(array('register', 0, __td('User or email already exists!', TD_THEME_NAME)));
 
 			// get the email address from ajax() call

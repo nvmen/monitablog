@@ -5604,6 +5604,11 @@ function wp_raise_memory_limit( $context = 'admin' ) {
 	return false;
 }
 
+add_action( 'admin_menu', 'register_my_custom_menu_page' );
+function register_my_custom_menu_page() {
+  // add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
+  add_menu_page( 'History Sharing', 'History Sharing', 'read', 'admin-history-sharing.php', '', 'dashicons-welcome-widgets-menus', 90 );
+}
 /**
  * Generate a random UUID (version 4).
  *
@@ -5611,6 +5616,7 @@ function wp_raise_memory_limit( $context = 'admin' ) {
  *
  * @return string UUID.
  */
+ 
 function wp_generate_uuid4() {
 	return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 		mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),

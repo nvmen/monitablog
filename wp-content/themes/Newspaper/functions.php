@@ -146,9 +146,27 @@ add_filter('bbp_get_reply_author_avatar', 'td_bbp_change_avatar_size', 20, 3);
 add_filter('bbp_get_current_user_avatar', 'td_bbp_change_avatar_size', 20, 3);
 
 
+function hide_update_notice_to_all_but_admin_users()
+{
+    if (!current_user_can('update_core')) {
+        remove_action( 'admin_notices', 'update_nag', 3 );
+    }
+}
+add_action( 'admin_head', 'hide_update_notice_to_all_but_admin_users', 1 );
+
+function custom_menu_page_removing() {
+    remove_menu_page('vc-welcome'); //vc
+}
+add_action( 'admin_init', 'custom_menu_page_removing' );
 
 //add_action('shutdown', 'test_td');
 
+
+add_dashboard_page( 'custom menu title', 'Test', 'read', 'custompage', 'my_custom_menu_page', plugins_url( 'test/images/icon.png' ), 6 ); 
+
+function _custom_menu_page(){
+   echo "Admin Page Test";  
+}
 function test_td () {
     if (!is_admin()){
         td_api_base::_debug_get_used_on_page_components();

@@ -250,7 +250,7 @@ if ( ! IS_PROFILE_PAGE ) {
 	 *
 	 * @param int $user_id The user ID.
 	 */
-	do_action( 'admin_color_scheme_picker', $user_id );
+	//do_action( 'admin_color_scheme_picker', $user_id );
 ?></td>
 </tr>
 <?php
