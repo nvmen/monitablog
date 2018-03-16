@@ -25,6 +25,7 @@ if ($users_can_register == 1) {
 	                <div class="td_display_err"></div>
 	                <div class="td-login-inputs"><input class="td-login-input" type="text" name="register_email" id="register_email" value="" required><label>' . __td('your email', TD_THEME_NAME) .'</label></div>
 	                <div class="td-login-inputs"><input class="td-login-input" type="text" name="register_user" id="register_user" value="" required><label>' . __td('your username', TD_THEME_NAME) .'</label></div>
+					<div class="td-login-inputs"><input class="td-login-input" type="text" name="register_facebook" id="register_facebook" value="" required><label>' . __td('your facebook link', TD_THEME_NAME) .'</label></div>
 	                <input type="button" name="register_button" id="register_button" class="wpb_button btn td-login-button" value="' . __td('REGISTER', TD_THEME_NAME) . '">
 	                <div class="td-login-info-text">' . __td('A password will be e-mailed to you.', TD_THEME_NAME) . '</div>
                 </div>

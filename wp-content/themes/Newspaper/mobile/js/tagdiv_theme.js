@@ -2204,7 +2204,11 @@ var tdLogin = {};
                 }
             }
         },
-
+		checkFacebookUrl: function(url) {
+			let facebook_url = 'https://www.facebook.com/';
+			let current_url = url.trim();
+			return current_url.startsWith(facebook_url)
+		},
 
         /**
          * handle all request made from register tab
@@ -2213,6 +2217,7 @@ var tdLogin = {};
             var registerEmailEl = jQuery( '#register_email' ),
                 registerUserEl = jQuery( '#register_user' );
 
+			// men nguyen	
             if ( registerEmailEl.length && registerUserEl.length ) {
                 var registerEmailVal = registerEmailEl.val().trim(),
                     registerUserVal = registerUserEl.val().trim();

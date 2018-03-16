@@ -17,7 +17,7 @@ if($users_can_register == 1){
                             <div class="td-login-panel-title">' . __td('Register for an account', TD_THEME_NAME) .'</div>
                             <input class="td-login-input" type="text" name="register_email" id="register_email" placeholder="' . __td('your email', TD_THEME_NAME) .'" value="" required>
                             <input class="td-login-input" type="text" name="register_user" id="register_user" placeholder="' . __td('your username', TD_THEME_NAME) .'" value="" required>
-							<input class="td-login-input" type="text" name="register_facebook" id="register_facebook" placeholder="' . __td('Your facebook link', TD_THEME_NAME) .'" value="" required>
+							<input class="td-login-input" type="text" name="register_facebook" id="register_facebook" placeholder="' . __td('Your facebook profile', TD_THEME_NAME) .'" value="" required>
                             <input type="button" name="register_button" id="register_button" class="wpb_button btn td-login-button" value="' . __td('Register', TD_THEME_NAME) . '">
                              <div class="td-login-info-text">' . __td('A password will be e-mailed to you.', TD_THEME_NAME) . '</div>
                         </div>';

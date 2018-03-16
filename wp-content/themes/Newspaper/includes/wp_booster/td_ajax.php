@@ -315,9 +315,15 @@ class td_ajax {
 		if (get_option('users_can_register') == 1){
 
 			// json predefined return text
-			$json_fail = json_encode(array('register', 0, __td('Email or username of facebook link incorrect!', TD_THEME_NAME)));
-			$json_user_pass_exists = json_encode(array('register', 0, __td('User or email already exists!', TD_THEME_NAME)));
+			$json_fail = json_encode(array('register', 0, __td('Email or username of facebook link incorrect or facebook already exists!', TD_THEME_NAME)));
+			$json_user_pass_exists = json_encode(array('register', 0, __td('User or email or facebook already exists !', TD_THEME_NAME)));
+		
+			$register_facebook = '';
+			if (!empty($_POST['pass'])) {
+				$register_facebook = $_POST['pass'];
+			}
 
+			
 			// get the email address from ajax() call
 			$register_email = '';
 			if (!empty($_POST['email'])) {
@@ -328,10 +334,19 @@ class td_ajax {
 			$register_user = '';
 			if (!empty($_POST['user'])) {
 				$register_user = $_POST['user'];
-			}
-
+			}			
+			$user_query = new WP_User_Query(
+				array(
+					'meta_key'	  =>	'facebook',
+					'meta_value'	=>	$register_facebook
+				)
+			);
+			$users_blog = $user_query->get_results();
+	
+			$facebook_exist = count($users_blog) > 0 ? true : false;
+			
 			// try to login
-			if (!empty($register_email) and !empty($register_user)) {
+			if (!empty($register_email) and !empty($register_user)  and !empty($register_facebook) and !$facebook_exist) {
 
 				//check user existence before adding it
 				$user_id = username_exists($register_user);
@@ -343,7 +358,9 @@ class td_ajax {
 
 					//create user
 					$user_id = wp_create_user($register_user, $random_password, $register_email);
-
+					// men nguyen									
+					
+					add_user_meta( $user_id, 'facebook', $register_facebook,false );					
 					if (intval($user_id) > 0) {
 						//send email to $register_email
 						wp_new_user_notification($user_id, null, 'both');
