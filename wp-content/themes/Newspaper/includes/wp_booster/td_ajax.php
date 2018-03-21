@@ -361,6 +361,7 @@ class td_ajax {
 					// men nguyen									
 					
 					add_user_meta( $user_id, 'facebook', $register_facebook,false );					
+					add_user_meta( $user_id, 'status_account', 0 ,false );	// default in active				
 					if (intval($user_id) > 0) {
 						//send email to $register_email
 						wp_new_user_notification($user_id, null, 'both');

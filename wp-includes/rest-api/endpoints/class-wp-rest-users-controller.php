@@ -61,6 +61,17 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'create_item_permissions_check' ),
 				'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
 			),
+			
+			'schema' => array( $this, 'get_public_item_schema' ),
+		) );
+		
+			register_rest_route( $this->namespace, '/' . $this->rest_base.'/allusers', array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_items_users' ),	
+				'permission_callback' => array( $this, 'get_items_permissions_check' ),				
+				'args'                => $this->get_collection_params(),
+			),			
 			'schema' => array( $this, 'get_public_item_schema' ),
 		) );
 
@@ -193,6 +204,45 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		return true;
 	}
 
+	
+	public function get_items_users($request) {
+		
+		// men nguyen
+		// Retrieve the list of registered collection query parameters.
+		$registered = $this->get_collection_params();		
+		$blogusers = get_users( 'role=subscriber' );
+		$temp = null;
+		$array_results = array();
+		foreach($blogusers as $user){
+			$temp = $user;
+			
+			$user_meta = get_user_meta ( $user->ID);
+			try {
+				if($user_meta['status_account'][0] != "1"){
+				$item = array(
+				'id' => $user->ID,
+				'email'=> $user->user_email,
+				'login_name'=> $user->user_login,
+				'facebook' =>$user_meta['facebook'][0],
+				'nickname' =>$user_meta['nickname'][0],
+				'phone' =>$user_meta['phone_number'][0],
+				'status' =>$user_meta['status_account'][0],
+				);
+			}
+			$array_results [] = $item;
+			} catch (Exception $e) {
+				// no thing
+			}
+		}
+	//	var_dump($temp);exit(0);
+		//$response = rest_ensure_response($blogusers);
+		$response = rest_ensure_response($array_results);
+		return $response;
+		
+
+		
+		
+	}
 	/**
 	 * Retrieves all users.
 	 *

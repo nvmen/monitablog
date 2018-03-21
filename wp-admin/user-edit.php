@@ -92,6 +92,7 @@ if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $c
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $user->user_email, $current_user->user_login ) );
 		}
 		wp_update_user( $user );
+		
 		delete_user_meta( $current_user->ID, '_new_email' );
 		wp_redirect( add_query_arg( array( 'updated' => 'true' ), self_admin_url( 'profile.php' ) ) );
 		die();
@@ -623,7 +624,7 @@ if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) : ?>
 		 *
 		 * @param WP_User $profileuser The current WP_User object.
 		 */
-		do_action( 'show_user_profile', $profileuser );
+		//do_action( 'show_user_profile', $profileuser );
 	} else {
 		/**
 		 * Fires after the 'About the User' settings table on the 'Edit User' screen.
@@ -632,7 +633,7 @@ if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) : ?>
 		 *
 		 * @param WP_User $profileuser The current WP_User object.
 		 */
-		do_action( 'edit_user_profile', $profileuser );
+	//	do_action( 'edit_user_profile', $profileuser );
 	}
 ?>
 
