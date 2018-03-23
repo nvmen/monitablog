@@ -65,10 +65,20 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			'schema' => array( $this, 'get_public_item_schema' ),
 		) );
 		
-			register_rest_route( $this->namespace, '/' . $this->rest_base.'/allusers', array(
+		register_rest_route( $this->namespace, '/' . $this->rest_base.'/allusers', array(
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_items_users' ),	
+				'permission_callback' => array( $this, 'get_items_permissions_check' ),				
+				'args'                => $this->get_collection_params(),
+			),			
+			'schema' => array( $this, 'get_public_item_schema' ),
+		) );
+		
+		register_rest_route( $this->namespace, '/' . $this->rest_base.'/updateuser', array(
+			array(
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'update_items_user' ),	
 				'permission_callback' => array( $this, 'get_items_permissions_check' ),				
 				'args'                => $this->get_collection_params(),
 			),			
@@ -205,6 +215,18 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	}
 
 	
+	public function update_items_user($request){
+		
+		//$header = get_header('token');
+		$user_id = $request['user_id'];
+		$meta_key = $request['key'];
+		$meta_value = $request['value'];
+		update_user_meta( $user_id, $meta_key, $meta_value);
+		var_dump($request->get_header('token'));exit(0);
+		// check token valid
+		$response = rest_ensure_response($header);
+		return $response;
+	}
 	public function get_items_users($request) {
 		
 		// men nguyen
