@@ -294,11 +294,22 @@ class td_ajax {
 					'body'        => array('username'=>$user_post,'password'=>$pwd ),
 
 				);
+				//var_dump($obj_wp_login->ID);exit(0);
 				$url = GET_TOKEN_LOGIN;
 				$response = wp_remote_post( $url ,$args);
 				$body = wp_remote_retrieve_body( $response );
 				$data = (array) json_decode($body);	
-				$token = $data['token'];				
+				$token = $data['token'];
+				$url = SAVE_TOKEN_LOGIN;
+				$args = array(
+					'timeout'     => 50,
+					'body'        => array('user_id'=> $obj_wp_login->ID,'token'=>$token),
+
+				);
+				$response = wp_remote_post( $url ,$args);
+				$body = wp_remote_retrieve_body( $response );
+				$data = (array) json_decode($body);
+
 				die(json_encode(array('login', 1,'OK',$token)));
 			}
 

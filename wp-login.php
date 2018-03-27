@@ -797,9 +797,9 @@ default:
 	$user = wp_signon( array(), $secure_cookie );
 	
 	//$request = new WP_REST_Request( 'POST', '/monitablog/wp-json/jwt-auth/v1/token' );	
-	$request = WP_REST_Request::from_url('http://localhost/monitablog/wp-json/jwt-auth/v1/token');	
-	$request->set_method( 'POST' );
-	$request->set_body( [ 'username' => 'admin' ],[ 'password' => '123456A' ] );
+	//$request = WP_REST_Request::from_url('http://localhost/monitablog/wp-json/jwt-auth/v1/token');
+	//$request->set_method( 'POST' );
+	//$request->set_body( [ 'username' => 'admin' ],[ 'password' => '123456A' ] );
 	
 	
 	$pwd = $_POST['pwd'];
@@ -809,12 +809,14 @@ default:
         'body'        => array('username'=>$user_post,'password'=>$pwd ),
 
     );
+	// men nguyen
 	$url = GET_TOKEN_LOGIN;
     $response = wp_remote_post( $url ,$args);
     $body = wp_remote_retrieve_body( $response );
     $data = (array) json_decode($body);	
-	//var_dump($data['token']);exit(0);
+
 	setcookie('token', $data['token'], time() + (86400 * 30), "/"); // 86400 = 1 day
+	// save token to manager
 	//var_dump($_POST);exit(0);
 	if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
 		if ( headers_sent() ) {

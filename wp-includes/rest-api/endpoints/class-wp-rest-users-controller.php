@@ -216,15 +216,19 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 	
 	public function update_items_user($request){
-		
-		//$header = get_header('token');
-		$user_id = $request['user_id'];
-		$meta_key = $request['key'];
-		$meta_value = $request['value'];
-		update_user_meta( $user_id, $meta_key, $meta_value);
-		var_dump($request->get_header('token'));exit(0);
-		// check token valid
-		$response = rest_ensure_response($header);
+
+
+		$token = $request->get_header('token');
+		$status  = false;
+		$body = json_decode($request->get_body());
+		$user_id = $body->user_id;
+		$meta_key = $body->key;
+		$meta_value = $body->value;
+		$test_mode = $meta_value === 'true'? true: false;
+		if($token == TOKEN_VERIFY_MANAGER){
+			$status  = update_user_meta( $user_id, $meta_key, $test_mode);
+		}
+		$response = rest_ensure_response(array('status'=>$status));
 		return $response;
 	}
 	public function get_items_users($request) {
@@ -240,7 +244,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			
 			$user_meta = get_user_meta ( $user->ID);
 			try {
-				if($user_meta['status_account'][0] != "1"){
+				//if($user_meta['status_account'][0] != "1"){
 				$item = array(
 				'id' => $user->ID,
 				'email'=> $user->user_email,
@@ -250,7 +254,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				'phone' =>$user_meta['phone_number'][0],
 				'status' =>$user_meta['status_account'][0],
 				);
-			}
+			//}
 			$array_results [] = $item;
 			} catch (Exception $e) {
 				// no thing

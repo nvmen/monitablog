@@ -20,7 +20,7 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'monitablog');
+define('DB_NAME', 'monitablogx');
 
 /** MySQL database username */
 define('DB_USER', 'root');
@@ -63,6 +63,11 @@ define('GET_PRICE_SOCIAL_URL',       'https://monita.vn/social');
 define('CHECK_CAN_SHARE',       'https://www.monita.vn/canshare');
 define('CHECK_PAYMENT_SHARE',       'https://www.monita.vn/canshare');
 define('GET_TOKEN_LOGIN',       'http://localhost/monitablog/wp-json/jwt-auth/v1/token');
+define('SAVE_TOKEN_LOGIN',       'http://127.0.0.1:8000/api/save-token'); // manager.letup.com.vn
+define('TOKEN_VERIFY_MANAGER',       'O2oYPjiKE9JBxbi3vUZmrc1BqMaIyGLXfgxYIUgFoYMbVEegUls4Mx2KD4MBn6GG0R06iyKToKeV7jpxd6TKFaI47fAUzt3RVy5Dy2QRSJNaQamNfhFcuZ5EBVAVawtHkmlsynTCu0nx2g6PSR3WZPGZ0CaWdBKEyTLki5WpjtoBXhVNcifOC9ZACTTVtzo0S6yotYp8'); // manager.letup.com.vn
+
+
+
 
 /**#@-*/
 
