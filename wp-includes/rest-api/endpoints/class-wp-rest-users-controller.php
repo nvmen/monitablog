@@ -226,7 +226,10 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		$meta_value = $body->value;
 		$test_mode = $meta_value === 'true'? true: false;
 		if($token == TOKEN_VERIFY_MANAGER){
-			$status  = update_user_meta( $user_id, $meta_key, $test_mode);
+			 update_user_meta( $user_id, $meta_key, $test_mode);
+			if(get_user_meta($user_id,  $meta_key, true ) == $test_mode){
+				$status  = true;
+			}
 		}
 		$response = rest_ensure_response(array('status'=>$status));
 		return $response;
