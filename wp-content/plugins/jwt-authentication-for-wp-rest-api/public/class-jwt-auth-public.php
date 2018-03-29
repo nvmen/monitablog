@@ -231,7 +231,9 @@ class Jwt_Auth_Public
 
         /* Double check for different auth header string (server dependent) */
         if (!$auth) {
-            $auth = isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) ?  $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] : false;
+			$allHeaders = getallheaders();
+			$auth = isset($allHeaders['Authorization']) ? $allHeaders['Authorization'] : false;
+          //  $auth = isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) ?  $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] : false;
         }
 
         if (!$auth) {
