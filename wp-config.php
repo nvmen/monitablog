@@ -20,7 +20,7 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'monitablog');
+define('DB_NAME', 'monitablogx');
 
 /** MySQL database username */
 define('DB_USER', 'root');
@@ -59,14 +59,25 @@ define('NONCE_SALT',       'Y+P(jE}^Xp;8R=S:SbOd_v)p%A))?$ {HXyRezd_l;Mzo[ Bx!lW
 define('JWT_AUTH_SECRET_KEY', 'sogM4ZgHPLMKlzqoVl7IoH4r4TkrfleK');
 define('JWT_AUTH_CORS_ENABLE', true);
 define('FACEBOOK_APPID',       '321635654908147');
-define('GET_PRICE_SOCIAL_URL',       'https://monita.vn/social');
-define('CHECK_CAN_SHARE',       'https://www.monita.vn/canshare');
-define('CHECK_PAYMENT_SHARE',       'https://www.monita.vn/canshare');
-define('GET_TOKEN_LOGIN',       'http://localhost/monitablog/wp-json/jwt-auth/v1/token');
-define('SAVE_TOKEN_LOGIN',       'http://127.0.0.1:8000/api/save-token'); // manager.letup.com.vn
+
 define('TOKEN_VERIFY_MANAGER',       'O2oYPjiKE9JBxbi3vUZmrc1BqMaIyGLXfgxYIUgFoYMbVEegUls4Mx2KD4MBn6GG0R06iyKToKeV7jpxd6TKFaI47fAUzt3RVy5Dy2QRSJNaQamNfhFcuZ5EBVAVawtHkmlsynTCu0nx2g6PSR3WZPGZ0CaWdBKEyTLki5WpjtoBXhVNcifOC9ZACTTVtzo0S6yotYp8'); // manager.letup.com.vn
+$mode ='develop';
+if($mode =='develop'){
+	define('GET_PRICE_SOCIAL_URL',       'https://monita.vn/social');
+	define('CHECK_CAN_SHARE',       'https://www.monita.vn/canshare');
+	define('CHECK_PAYMENT_SHARE',       'https://www.monita.vn/canshare');
+	define('GET_TOKEN_LOGIN',       'http://localhost/monitablog/wp-json/jwt-auth/v1/token');
+	define('SAVE_TOKEN_LOGIN',       'http://127.0.0.1:8000/api/save-token'); // manager.letup.com.vn
+	define('GET_USER_PROFILE',       'http://127.0.0.1:8000/api/user-info'); // manager.letup.com.vn
+}else{
+	define('GET_PRICE_SOCIAL_URL',       'https://monita.vn/social');
+	define('CHECK_CAN_SHARE',       'https://www.monita.vn/canshare');
+	define('CHECK_PAYMENT_SHARE',       'https://www.monita.vn/canshare');
 
-
+	define('GET_TOKEN_LOGIN',       'https://letup.com.vn/wp-json/jwt-auth/v1/token');
+	define('SAVE_TOKEN_LOGIN',       'https://manager.letup.com.vn/api/save-token'); // manager.letup.com.vn
+	define('GET_USER_PROFILE',       'https://manager.letup.com.vn/api/user-info'); // manager.letup.com.vn
+}
 
 
 /**#@-*/

@@ -18,7 +18,17 @@
 
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
-
+function  get_text_pay($value)
+{
+	if($value==0) return 'Not Pay';
+	if($value==1) return 'Paid';
+}
+function  get_text_verify($value)
+{
+	if($value==0) return 'None';
+	if($value==1) return 'Verifying';
+	if($value==2) return 'Verified';
+}
 if ( ! wp_is_mobile() ) {
 	wp_enqueue_style( 'wp-mediaelement' );
 	wp_enqueue_script( 'wp-mediaelement' );
@@ -34,6 +44,18 @@ list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
   $current_user = wp_get_current_user();
+  $token = $_COOKIE['token'];
+  $response = wp_remote_post( GET_USER_PROFILE, array(
+	'body'    => $current_user,
+	'headers' => array(
+		'Authorization' => 'Bearer ' . $token,
+	),
+) );
+
+$body = wp_remote_retrieve_body( $response );
+$user_info  = json_decode($body);
+//var_dump($user_info->history);exit(0);
+
 ?>
 
 
@@ -65,16 +87,30 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 									<label class="col-md-4 control-label">Total money earn</label>
 									<div class="col-md-8 inputGroupContainer">
 									   <div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>
-									   <input id="addressLine1" name="addressLine1" readonly placeholder="Address Line 1" class="form-control" required="true" value="500,000 vnd" type="text"></div>
+									   <input id="addressLine1" name="addressLine1" readonly placeholder="Address Line 1" class="form-control" required="true" value="<?php echo (number_format($user_info->total_pay)) ?> VND" type="text"></div>
 									</div>
 								 </div>
 								 <div class="form-group">
-									<label class="col-md-4 control-label">Total money paid</label>
+									<label class="col-md-4 control-label">Share Facebook</label>
 									<div class="col-md-8 inputGroupContainer">
 									   <div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>
-									   <input id="addressLine2" name="addressLine2" readonly placeholder="Address Line 2" class="form-control" required="true" value="20,000 vnd" type="text"></div>
+									   <input id="addressLine2" name="addressLine2" readonly placeholder="Address Line 2" class="form-control" required="true" value="<?php echo number_format($user_info->facebook_price,0)?> VND" type="text"></div>
 									</div>
 								 </div>
+								  <div class="form-group">
+									  <label class="col-md-4 control-label">Share Zalo</label>
+									  <div class="col-md-8 inputGroupContainer">
+										  <div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>
+											  <input id="addressLine2" name="addressLine2" readonly placeholder="Address Line 2" class="form-control" required="true" value="<?php echo number_format($user_info->zalo_price,0)?> VND" type="text"></div>
+									  </div>
+								  </div>
+								  <div class="form-group">
+									  <label class="col-md-4 control-label">Share Twitter </label>
+									  <div class="col-md-8 inputGroupContainer">
+										  <div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>
+											  <input id="addressLine2" name="addressLine2" readonly placeholder="Address Line 2" class="form-control" required="true" value="<?php echo number_format($user_info->twitter_price,0)?> VND" type="text"></div>
+									  </div>
+								  </div>
 								  <div class="form-group">
 									<label class="col-md-4 control-label">Total money spending</label>
 									<div class="col-md-8 inputGroupContainer">
@@ -120,36 +156,27 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
             
         </tr>
     </thead>
+		<?php
+		$index = 1;
+			foreach ($user_info->history as $post){
+
+		?>
             <tr>
-                <td>1</td>
-                <td>https://letup.com.vn/2018/01/31/should-you-be-popping-probiotics/</td>
-                <td>Facebook</td>
-				<td>2000 VND</td>
-				<td>05/08/2018</td>
-				<td>Verifing</td>
-				<td>No</td>					
+                <td><?php echo $index ?></td>
+                <td><?php echo( $post->post_link) ?></td>
+                <td><?php echo($post->platform) ?></td>
+				<td><?php echo (number_format($post->price)) ?> VND</td>
+				<td><?php echo $post->created_at ?></td>
+				<td><?php echo get_text_verify($post->verify) ?></td>
+				<td><?php echo get_text_pay($post->paid) ?></td>
 				<td>--</td>				
             </tr>
-			 <tr>
-                <td>2</td>
-                <td>https://letup.com.vn/2018/01/31/should-you-be-popping-probiotics/</td>
-                <td>Facebook</td>
-				<td>2000 VND</td>
-				<td>05/08/2018</td>
-				<td>Verifing</td>			
-				<td>No</td>				
-				<td>--</td>				
-            </tr>
-			 <tr>
-                <td>3</td>
-                <td>https://letup.com.vn/2018/01/31/should-you-be-popping-probiotics/</td>
-                <td>Facebook</td>
-				<td>2000 VND</td>
-				<td>05/08/2018</td>
-				<td>Verifing</td>					
-				<td>No</td>				
-				<td>--</td>				
-            </tr>
+
+		<?php
+				$index = $index + 1;
+		}
+		?>
+
             
     </table>
    

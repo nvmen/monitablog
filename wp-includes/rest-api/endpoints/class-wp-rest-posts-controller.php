@@ -87,6 +87,32 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'type'        => 'string',
 			);
 		}
+		register_rest_route( $this->namespace, '/' . $this->rest_base.'/postinfo' . '/(?P<id>[\d]+)', array(
+			'args' => array(
+				'id' => array(
+					'description' => __( 'Unique identifier for the object.' ),
+					'type'        => 'integer',
+				),
+			),
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_items_post_info' ),	
+				'permission_callback' => array( $this, 'get_items_permissions_check' ),				
+				'args'                => $this->get_collection_params(),
+			),			
+			'schema' => array( $this, 'get_public_item_schema' ),
+		) );
+		
+		register_rest_route( $this->namespace, '/' . $this->rest_base.'/update_post', array(
+			array(
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'update_items_post' ),	
+				'permission_callback' => array( $this, 'get_items_permissions_check' ),				
+				'args'                => $this->get_collection_params(),
+			),			
+			'schema' => array( $this, 'get_public_item_schema' ),
+		) );
+		
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\d]+)', array(
 			'args' => array(
 				'id' => array(
@@ -476,6 +502,45 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		return $response;
 	}
 
+	// monita men nguyen
+	
+	public function update_items_post($request){
+		$token = $request->get_header('token');
+		$status  = false;
+		$body = json_decode($request->get_body());
+		$post_id = $body->post_id;
+		$meta_key = $body->key;
+		$meta_value = $body->value;
+		$test_mode = $meta_value === 'true'? true: false;
+		
+		if($token == TOKEN_VERIFY_MANAGER){		
+			 update_post_meta( $post_id, $meta_key, $test_mode);
+			if(get_post_meta($post_id,  $meta_key, true ) == $test_mode){
+				$status  = true;
+			}
+		}
+		$response = rest_ensure_response(array('status'=>$token ));
+		return $response;
+	}
+	public function get_items_post_info($request){
+		$token = $request->get_header('token');
+		if($token != TOKEN_VERIFY_MANAGER){
+			$result = array('id'=>0,'budget'=>0,'campaign'=>0);
+			$response = rest_ensure_response($result);
+			return $response;
+		}
+		$post = $this->get_post( $request['id'] );
+		$budget = 0;
+		$campaign =0;
+		$budget_temp = get_post_meta( $request['id'], 'budget' );
+		if(count($budget_temp)>0)$budget = $budget_temp[0];
+		$campaign_temp = get_post_meta( $request['id'], 'is_campaign' );
+		if(count($campaign_temp)>0)$campaign = $campaign_temp[0];
+		$result = array('id'=>$request['id'],'budget'=>$budget,'campaign'=>$campaign);
+		$response = rest_ensure_response($result);
+		return $response;
+		//var_dump($key_1_values);
+	}
 	/**
 	 * Checks if a given request has access to create a post.
 	 *
