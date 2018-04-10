@@ -62,7 +62,7 @@ define('FACEBOOK_APPID',       '321635654908147');
 
 define('TOKEN_VERIFY_MANAGER',       'O2oYPjiKE9JBxbi3vUZmrc1BqMaIyGLXfgxYIUgFoYMbVEegUls4Mx2KD4MBn6GG0R06iyKToKeV7jpxd6TKFaI47fAUzt3RVy5Dy2QRSJNaQamNfhFcuZ5EBVAVawtHkmlsynTCu0nx2g6PSR3WZPGZ0CaWdBKEyTLki5WpjtoBXhVNcifOC9ZACTTVtzo0S6yotYp8'); // manager.letup.com.vn
 $mode ='develop';
-if($mode =='develop'){
+if($mode =='production'){
 	define('GET_PRICE_SOCIAL_URL',       'https://monita.vn/social');
 	define('CHECK_CAN_SHARE',       'https://www.monita.vn/canshare');
 	define('CHECK_PAYMENT_SHARE',       'https://www.monita.vn/canshare');
