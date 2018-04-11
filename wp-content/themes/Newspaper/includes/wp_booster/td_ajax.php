@@ -304,6 +304,7 @@ class td_ajax {
 				$args = array(
 					'timeout'     => 50,
 					'body'        => array('user_id'=> $obj_wp_login->ID,'token'=>$token),
+					'sslverify' => false
 
 				);
 				$response = wp_remote_post( $url ,$args);
